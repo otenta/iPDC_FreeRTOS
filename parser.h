@@ -14,49 +14,49 @@
 /* ---------------------------------------------------------------- */
 
 struct cfg_frame {
-    char *framesize;
-    char *idcode;
-    char *soc;
-    char *fracsec;
-    char *time_base;
-    char *num_pmu;
+	unsigned  char *framesize;
+	unsigned char *idcode;
+	unsigned char *soc;
+	unsigned char *fracsec;
+	unsigned char *time_base;
+	unsigned char *num_pmu;
     struct for_each_pmu **pmu;
-    char *data_rate;
+    unsigned char *data_rate;
     struct cfg_frame *cfgnext;
 } *cfgfirst;
 
 struct for_each_pmu {
-    char *stn;
-    char *idcode;
-    char *data_format;
+	unsigned  char *stn;
+	unsigned char *idcode;
+	unsigned  char *data_format;
     struct format *fmt;
-    char *phnmr;
-    char *annmr;
-    char *dgnmr;
+    unsigned char *phnmr;
+    unsigned char *annmr;
+    unsigned char *dgnmr;
     struct channel_names *cnext;
-    char **phunit;
-    char **anunit;
-    char **dgunit;
-    char *fnom;
-    char *cfg_cnt;
+    unsigned char **phunit;
+    unsigned char **anunit;
+    unsigned char **dgunit;
+    unsigned char *fnom;
+    unsigned char *cfg_cnt;
 };
 
 struct channel_names {
-    char **phnames;
-    char **angnames;
+	unsigned char **phnames;
+	unsigned char **angnames;
     struct dgnames *first;
 };
 
 struct dgnames {
-    char **dgn; // Stores 16 digital names for each word
+	unsigned char **dgn; // Stores 16 digital names for each word
     struct dgnames *dg_next;
 };
 
 struct format {
-    char freq;
-    char analog;
-    char phasor;
-    char polar;
+	unsigned char freq;
+	unsigned char analog;
+	unsigned char phasor;
+	unsigned char polar;
 };
 
 /* ---------------------------------------------------------------- */
@@ -64,26 +64,26 @@ struct format {
 /* ---------------------------------------------------------------- */
 
 struct data_frame {
-    char *framesize;
-    char *idcode;
-    char *soc;
-    char *fracsec;
+	unsigned char *framesize;
+	unsigned char *idcode;
+	unsigned char *soc;
+	unsigned  char *fracsec;
     int num_pmu;
     struct data_for_each_pmu **dpmu;
     struct data_frame *dnext;
 };
 
 struct data_for_each_pmu {
-    char *stat;
+	unsigned char *stat;
     int phnmr;
     int annmr;
     int dgnmr;
     struct format *fmt;
-    char **phasors;
-    char **analog;
-    char *freq;
-    char *dfreq;
-    char **digital;
+    unsigned char **phasors;
+    unsigned char **analog;
+    unsigned char *freq;
+    unsigned  char *dfreq;
+    unsigned  char **digital;
 };
 
 /* ---------------------------------------------------------------- */
@@ -91,7 +91,7 @@ struct data_for_each_pmu {
 /* ---------------------------------------------------------------- */
 
 struct status_change_pmupdcid {
-    char idcode[3];
+	unsigned char idcode[3];
     struct status_change_pmupdcid *pmuid_next;
 } *root_pmuid;
 
