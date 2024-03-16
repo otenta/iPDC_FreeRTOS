@@ -72,7 +72,7 @@ int get_TSB_index() {
 /* FUNCTION  TSBwait(void* WT):                                                  */
 /* ---------------------------------------------------------------------------- */
 void* TSBwait(void* arg) {
-	int ind = *((int*)arg);
+	int ind =  arg;
 	xil_printf("mphke TSB wait me index %d \n", ind);
 
    // struct waitTime *wt = (struct waitTime*) WT;
@@ -142,8 +142,8 @@ void time_align(struct data_frame *df) {
 /* ---------------------------------------------------------------------------- */
 void assign_df_to_TSB(struct data_frame *df, int index) {
     TaskHandle_t waitTask;
-    xil_printf("mphke TSB assign\n");
-    xil_printf("DEBUG: assign df to tsb index is %d", index);
+
+    xil_printf("mphke TSB assign df to tsb index is %d", index);
 
     /* Check if the TSB is used for the first time. If so we need to
        allocate memory to its member variables */
@@ -186,7 +186,7 @@ void assign_df_to_TSB(struct data_frame *df, int index) {
             //wt.wait_time = pdMS_TO_TICKS(2000);
         	int ind = index;
 
-            xTaskCreate(TSBwait, "TSBWaitTask", configMINIMAL_STACK_SIZE*2, (void*)&ind, tskIDLE_PRIORITY, &waitTask);
+            xTaskCreate(TSBwait, "TSBWaitTask", configMINIMAL_STACK_SIZE*2, (void*)ind, tskIDLE_PRIORITY, &waitTask);
         }
     } else { // 1 if else
         struct cfg_frame *temp_cfg = cfgfirst;
@@ -222,9 +222,10 @@ void assign_df_to_TSB(struct data_frame *df, int index) {
 
             	int ind = index;
 
-                xTaskCreate(TSBwait, "TSBWaitTask", configMINIMAL_STACK_SIZE*2, (void*)&ind, tskIDLE_PRIORITY, &waitTask);
+                xTaskCreate(TSBwait, "TSBWaitTask", configMINIMAL_STACK_SIZE*2, (void*)ind, tskIDLE_PRIORITY, &waitTask);
             }
         } else { // 2 if else
+            xil_printf("mphke TSB assign sthn else me to idio fracsec soc\n kai index %d", index);
             struct data_frame *temp_df, *check_df;
 
             check_df = TSB[index].first_data_frame;
@@ -243,6 +244,7 @@ void assign_df_to_TSB(struct data_frame *df, int index) {
             }
 
             temp_df->dnext = df;
+            xil_printf("telos else tsb assign\n");
         } // 2 if ends
     } // 1 if ends
 }

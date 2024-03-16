@@ -10,15 +10,15 @@
 
 /* Data Structure for Time Stamp Buffer */
 struct TimeStampBuffer {
-    char *soc;
-    char *fracsec;
+    unsigned char *soc;
+    unsigned char *fracsec;
     int used;   // 0 for unused, -1 for used, and 1 is for ready to dispatch?
     struct pmupdc_id_list *idlist;
     struct data_frame *first_data_frame;
 } TSB[MAXTSB];
 
 struct pmupdc_id_list {
-    char *idcode;
+	unsigned char *idcode;
     int num_pmu;
     struct pmupdc_id_list *nextid;
 };

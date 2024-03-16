@@ -20,10 +20,10 @@ void free_cfgframe_object(struct cfg_frame *cfg) {
     num_pmu = to_intconvertor(cfg->num_pmu);
 
     while(j < num_pmu) {
-        free(cfg->pmu[j]->stn);
-        free(cfg->pmu[j]->idcode);
-        free(cfg->pmu[j]->data_format);
-        free(cfg->pmu[j]->fmt);
+    	vPortFree(cfg->pmu[j]->stn);
+    	vPortFree(cfg->pmu[j]->idcode);
+    	vPortFree(cfg->pmu[j]->data_format);
+    	vPortFree(cfg->pmu[j]->fmt);
 
         phn = to_intconvertor(cfg->pmu[j]->phnmr);
         ann = to_intconvertor(cfg->pmu[j]->annmr);
@@ -51,23 +51,23 @@ void free_cfgframe_object(struct cfg_frame *cfg) {
         if(dgn != 0)
             free_2darray(cfg->pmu[j]->dgunit, dgn);
 
-        free(cfg->pmu[j]->phnmr);
-        free(cfg->pmu[j]->annmr);
-        free(cfg->pmu[j]->dgnmr);
-        free(cfg->pmu[j]->fnom);
-        free(cfg->pmu[j]->cfg_cnt);
+        vPortFree(cfg->pmu[j]->phnmr);
+        vPortFree(cfg->pmu[j]->annmr);
+        vPortFree(cfg->pmu[j]->dgnmr);
+        vPortFree(cfg->pmu[j]->fnom);
+        vPortFree(cfg->pmu[j]->cfg_cnt);
 
         j++;
     }
 
-    free(cfg->framesize);
-    free(cfg->idcode);
-    free(cfg->soc);
-    free(cfg->fracsec);
-    free(cfg->time_base);
-    free(cfg->data_rate);
-    free(cfg->num_pmu);
-    free(cfg);
+    vPortFree(cfg->framesize);
+    vPortFree(cfg->idcode);
+    vPortFree(cfg->soc);
+    vPortFree(cfg->fracsec);
+    vPortFree(cfg->time_base);
+    vPortFree(cfg->data_rate);
+    vPortFree(cfg->num_pmu);
+    vPortFree(cfg);
 }
 
 /* -------------------------------------------------------------*/
@@ -79,14 +79,14 @@ void free_dataframe_object(struct data_frame *df) {
 
     while(j < df->num_pmu) {
         if(df->dpmu[j]->stat[1] == 0x0F) {
-            free(df->dpmu[j]->stat);
+        	vPortFree(df->dpmu[j]->stat);
             j++;
             continue;
         }
 
-        free(df->dpmu[j]->stat);
-        free(df->dpmu[j]->freq);
-        free(df->dpmu[j]->dfreq);
+        vPortFree(df->dpmu[j]->stat);
+        vPortFree(df->dpmu[j]->freq);
+        vPortFree(df->dpmu[j]->dfreq);
 
         if(df->dpmu[j]->phnmr != 0)
             free_2darray(df->dpmu[j]->phasors, df->dpmu[j]->phnmr);
@@ -98,11 +98,11 @@ void free_dataframe_object(struct data_frame *df) {
         j++;
     }
 
-    free(df->framesize);
-    free(df->idcode);
-    free(df->soc);
-    free(df->fracsec);
-    free(df);
+    vPortFree(df->framesize);
+    vPortFree(df->idcode);
+    vPortFree(df->soc);
+    vPortFree(df->fracsec);
+    vPortFree(df);
 }
 
 /* -------------------------------------------------------------*/
@@ -112,6 +112,6 @@ void free_dataframe_object(struct data_frame *df) {
 void free_2darray(unsigned char** array, int n) {
     int i;
     for(i = 0; i < n; i++)
-        free(array[i]);
-    free(array);
+    	vPortFree(array[i]);
+    vPortFree(array);
 }
